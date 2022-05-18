@@ -26,8 +26,11 @@ public class Country implements Serializable {
 
     public int getId() {
         return Id;
-    }
 
+    }
+    public String getIdString(){
+        return String.valueOf(Id);
+    }
     public void setId(int id) {
         Id = id;
     }

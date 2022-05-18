@@ -3,7 +3,9 @@ package com.example.gossssss;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +48,7 @@ public class AddFragment extends Fragment {
         CheckBox cbFlag = (CheckBox) view.findViewById(R.id.Flag);
 
         btnAddNewItem.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
 
@@ -57,9 +60,9 @@ public class AddFragment extends Fragment {
                 cv.put("number",Integer.parseInt(etNumber.getText().toString()));
                 cv.put("flag",1);
 
-                db.insert("mytable", null, cv);
+                long rowId= db.insert("mytable", null, cv);
 
-                Countries.add(new Country(
+                Countries.add(new Country(Math.toIntExact(rowId),
                         etCountry.getText().toString(),
                         etCapital.getText().toString(),
                         Integer.parseInt(etNumber.getText().toString()),

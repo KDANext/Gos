@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     ArrayList<Country> Countries = new ArrayList();
     ArrayAdapter<Country> adapter;
@@ -36,14 +36,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SQLiteDatabase db = Service.getWritableDatabase();
         Cursor c = db.query("mytable", null, null, null, null, null, null);
 
-        while (c.moveToNext()){
-            Countries.add(new Country(c.getString(1),c.getString(2),c.getInt(3),false));
+        while (c.moveToNext()) {
+            Countries.add(new Country(c.getInt(0),c.getString(1), c.getString(2), c.getInt(3), false));
         }
-
+        //db.delete("mytable",null,null);
         //Для списка....
         ListView lvMain = (ListView) findViewById(R.id.lvSearch);
         lvMain.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        adapter = new CountryAdapter(this,R.layout.list_item, Countries);
+        adapter = new CountryAdapter(this, R.layout.list_item, Countries);
         lvMain.setAdapter(adapter);
         //Для кнопок...
         Button btnAddFragment = (Button) findViewById(R.id.btnAddFragment);
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnAddFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment addFragment = new AddFragment(Countries,Service);
+                Fragment addFragment = new AddFragment(Countries, Service);
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 assert addFragment != null;
                 ft.replace(R.id.frame, addFragment);
@@ -67,21 +67,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
                 int position = -1;
-                for(int i = 0;i<Countries.size();i++){
-                    if(Countries.get(i).isFlag()){
+                for (int i = 0; i < Countries.size(); i++) {
+                    if (Countries.get(i).isFlag()) {
                         position = i;
                         break;
                     }
                 }
-                Fragment updateFragment = new UpdateFragment(Countries,position);
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                assert updateFragment != null;
-                ft.replace(R.id.frame, updateFragment);
-                ft.commit();
+                if (position != -1) {
+                    Fragment updateFragment = new UpdateFragment(Countries, position, Service);
+                    FragmentTransaction ft = fragmentManager.beginTransaction();
+                    assert updateFragment != null;
+                    ft.replace(R.id.frame, updateFragment);
+                    ft.commit();
+                }
+
             }
         });
 
     }
+
     //действия на кнопках
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -99,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                }
                 //поиск по чекбоксам
                 ArrayList<Country> search = new ArrayList<Country>();
-                for( int i = 0;i<Countries.size();i++){
-                    if(Countries.get(i).isFlag()){
+                for (int i = 0; i < Countries.size(); i++) {
+                    if (Countries.get(i).isFlag()) {
                         search.add(Countries.get(i));
                     }
                 }
@@ -111,12 +115,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
     private void loadDatabase() {
-        adapter = new CountryAdapter(this,R.layout.list_item, Countries);
+        adapter = new CountryAdapter(this, R.layout.list_item, Countries);
     }
 
 
-    public void UpdateList(){
+    public void UpdateList() {
         adapter.notifyDataSetChanged();
     }
 }
