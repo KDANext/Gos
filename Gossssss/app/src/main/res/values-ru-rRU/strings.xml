@@ -9,4 +9,5 @@
     <string name="AddItemInItems">Добавление</string>
     <string name="UpdateItem">Изменить</string>
     <string name="btnSaveToDatabase">Сохранить в базу данных</string>
+    <string name="btnSearch">Отчет</string>
 </resources>

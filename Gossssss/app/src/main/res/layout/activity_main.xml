@@ -27,11 +27,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <Button
-                    android:id="@+id/btnAddFragment"
+                <EditText
+                    android:id="@+id/TextSearch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/AddItemInItems" />
+                    android:ems="10"
+                    android:inputType="textPersonName" />
+
+                <Button
+                    android:id="@+id/btnSearch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btnSearch" />
+
             </TableRow>
 
             <TableRow
@@ -43,6 +51,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/UpdateItem" />
+
+                <Button
+                    android:id="@+id/btnAddFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/AddItemInItems" />
             </TableRow>
 
             <TableRow
@@ -55,7 +69,7 @@
         </TableLayout>
 
         <ListView
-            android:id="@+id/lvMain"
+            android:id="@+id/lvSearch"
             android:layout_width="wrap_content"
             android:layout_height="300dp" />
 

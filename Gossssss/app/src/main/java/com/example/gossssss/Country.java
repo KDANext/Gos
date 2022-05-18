@@ -1,6 +1,8 @@
 package com.example.gossssss;
 
-public class Country {
+import java.io.Serializable;
+
+public class Country implements Serializable {
     private int Id;
     private String Name;
     private String Capital;
