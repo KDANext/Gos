@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gossssss</string>
+    <string name="btnAddNewItem">Добавить</string>
+    <string name="btnChange">Изменить</string>
+    <string name="Country">Страна</string>
+    <string name="Capital">Столица</string>
+    <string name="Number">Число</string>
+    <string name="AddItemInItems">Добавление</string>
+    <string name="UpdateItem">Изменить</string>
+    <string name="btnSaveToDatabase">Сохранить в базу данных</string>
+</resources>
