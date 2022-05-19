@@ -2,6 +2,7 @@ package com.example.gossssss;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.Fragment;
@@ -14,8 +15,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -50,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnUpdateFragment = (Button) findViewById(R.id.btnUpdateFragment);
         Button btnSearch = (Button) findViewById(R.id.btnSearch);
         btnSearch.setOnClickListener(this);
+        Button btnSaveJson = (Button) findViewById(R.id.btnSaveJSON);
+        Button btnLoadJson = (Button) findViewById(R.id.btnLoadJSON);
+        //
         searchField = (EditText) findViewById(R.id.TextSearch);
         //
         //
@@ -83,6 +96,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+        btnSaveJson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveData();
+            }
+        });
+        btnLoadJson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadData();
+            }
+        });
 
     }
 
@@ -108,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         search.add(Countries.get(i));
                     }
                 }
+                //
                 intent.putExtra("MyClass", search);
                 startActivity(intent);
                 break;
@@ -116,9 +142,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void loadDatabase() {
-        adapter = new CountryAdapter(this, R.layout.list_item, Countries);
+    public void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(Countries);
+        editor.putString("task list", json);
+        editor.apply();
     }
+
+    public void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("task list", null);
+        Type type = new TypeToken<ArrayList<Country>>() {}.getType();
+        ArrayList<Country> Temp = gson.fromJson(json, type);
+        Countries.clear();
+        Countries.addAll(Temp);
+        if (Countries == null) {
+            Countries = new ArrayList<>();
+        }
+        UpdateList();
+    }
+
+
 
 
     public void UpdateList() {

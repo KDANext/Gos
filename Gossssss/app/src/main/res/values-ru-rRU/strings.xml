@@ -10,4 +10,6 @@
     <string name="UpdateItem">Изменить</string>
     <string name="btnSaveToDatabase">Сохранить в базу данных</string>
     <string name="btnSearch">Отчет</string>
+    <string name="btnSaveJSON">Сохранить в Json</string>
+    <string name="btnLoadJson">Загрузить из Json</string>
 </resources>
