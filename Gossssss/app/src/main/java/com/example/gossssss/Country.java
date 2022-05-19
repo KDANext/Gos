@@ -1,6 +1,8 @@
 package com.example.gossssss;
 
-public class Country {
+import java.io.Serializable;
+
+public class Country implements Serializable {
     private int Id;
     private String Name;
     private String Capital;
@@ -24,8 +26,11 @@ public class Country {
 
     public int getId() {
         return Id;
-    }
 
+    }
+    public String getIdString(){
+        return String.valueOf(Id);
+    }
     public void setId(int id) {
         Id = id;
     }

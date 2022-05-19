@@ -21,6 +21,7 @@ public class dbService extends SQLiteOpenHelper {
                 + "number integer,"
                 + "flag integer"
                 + ");");
+
     }
 
     @Override
