@@ -105,7 +105,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnLoadJson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadData();
+                try {
+                    JSONObject object = new JSONObject(readJSON());
+                    JSONArray jsonArrayNames = object.getJSONArray("data");
+                    Countries.clear();
+                    for(int i = 0; i < jsonArrayNames.length(); i++){
+                        Countries.add(new Country(jsonArrayNames.getJSONObject(i).getString("Name"),
+                                jsonArrayNames.getJSONObject(i).getString("Capital"),
+                                jsonArrayNames.getJSONObject(i).getInt("Number"),
+                                jsonArrayNames.getJSONObject(i).getBoolean("flag")));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //loadData();
+                UpdateList();
             }
         });
 
@@ -170,5 +185,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void UpdateList() {
         adapter.notifyDataSetChanged();
+    }
+
+    public String readJSON() {
+        String json = null;
+        try {
+            // Opening data.json file
+            InputStream inputStream = getAssets().open("data.json");
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            // read values in the byte array
+            inputStream.read(buffer);
+            inputStream.close();
+            // convert byte to string
+            json = new String(buffer, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return json;
+        }
+        return json;
     }
 }
